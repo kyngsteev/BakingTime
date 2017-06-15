@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="4dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/step_text"
+            tools:text="Step :"
+            android:textSize="15sp"
+            android:paddingLeft="@dimen/padding8dp"
+            android:paddingRight="@dimen/padding8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/step_id"
+            android:text="1"
+            android:textSize="15sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/step_description_short"
+            android:paddingLeft="@dimen/padding8dp"
+            android:paddingRight="@dimen/padding8dp"
+            android:textSize="20sp"
+            android:textColor="@color/recipe_title"
+            android:text="Remove from oven and cool at room temperature."/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="380dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/rule_view_color"/>
+
+</LinearLayout>

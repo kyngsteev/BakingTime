@@ -2,4 +2,7 @@
     <string name="app_name">Baking Time</string>
     <string name="bakingUrl">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json</string>
     <string name="servings">Servings:</string>
+    <string name="extra">item</string>
+    <string name="step_text">Step: </string>
+    <string name="app_child_name">Recipe Name</string>
 </resources>

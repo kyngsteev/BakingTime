@@ -1,10 +1,12 @@
 package com.stephenomoarukhe.android.bakingtime.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,7 +59,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     public interface ListItemClickListener {
-        void onListItemClick(int clickedItemIndex);
+        void onClick(int clickedItemIndex);
     }
 
 
@@ -67,6 +69,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         ImageView recipeImage;
         TextView recipeTitle;
         TextView servings;
+        CardView cardView;
 
 
         public RecipeViewHolder(View itemView) {
@@ -75,6 +78,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             recipeImage = (ImageView) itemView.findViewById(R.id.thumbnail);
             recipeTitle = (TextView) itemView.findViewById(R.id.title);
             servings = (TextView) itemView.findViewById(R.id.count);
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
             itemView.setOnClickListener(this);
         }
 
@@ -89,7 +93,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            mOnClickListener.onListItemClick(clickedPosition);
+            mOnClickListener.onClick(clickedPosition);
         }
     }
 }

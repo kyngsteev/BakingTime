@@ -1,6 +1,7 @@
 package com.stephenomoarukhe.android.bakingtime.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,11 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.stephenomoarukhe.android.bakingtime.R;
 import com.stephenomoarukhe.android.bakingtime.adapter.RecipeAdapter;
 import com.stephenomoarukhe.android.bakingtime.model.Bake;
 import com.stephenomoarukhe.android.bakingtime.model.Recipe;
+import com.stephenomoarukhe.android.bakingtime.ui.DetailActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,8 +41,7 @@ import static com.stephenomoarukhe.android.bakingtime.ui.MainActivity.isTablet;
 public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemClickListener {
 
     public static final String TAG = RecipeFragment.class.getSimpleName();
-    public ArrayList<Recipe> mRecipes;
-//    private Bake mBake;
+    public static ArrayList<Recipe> mRecipes;
     private RecyclerView recyclerView;
     private RecipeAdapter adapter;
     private ArrayList<Integer> mImages;
@@ -47,7 +49,9 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.recipe_fragment, container, false);
+        rootView = inflater.inflate(R.layout.recipe_fragment, container, false);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_list);
 
         mImages = new ArrayList<>();
         mImages.add(R.drawable.nutella_pie);
@@ -89,7 +93,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
             }
         });
 
-        return recyclerView;
+        return rootView;
     }
 
     private void loadData() {
@@ -124,7 +128,10 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
     }
 
     @Override
-    public void onListItemClick(int clickedItemIndex) {
-
+    public void onClick(int clickedItemIndex) {
+        Toast.makeText(getActivity(), String.valueOf(clickedItemIndex), Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("item", clickedItemIndex);
+        startActivity(intent);
     }
 }
