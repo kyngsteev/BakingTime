@@ -5,4 +5,7 @@
     <string name="extra">item</string>
     <string name="step_text">Step: </string>
     <string name="app_child_name">Recipe Name</string>
+    <string name="error_title">Oops! Sorry!</string>
+    <string name="error_dialog_message">Network is not available! Please check network settings</string>
+    <string name="error_positive_button_text">OK</string>
 </resources>

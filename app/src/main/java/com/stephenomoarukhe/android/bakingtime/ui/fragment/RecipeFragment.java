@@ -3,20 +3,21 @@ package com.stephenomoarukhe.android.bakingtime.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.stephenomoarukhe.android.bakingtime.R;
 import com.stephenomoarukhe.android.bakingtime.adapter.RecipeAdapter;
-import com.stephenomoarukhe.android.bakingtime.model.Bake;
 import com.stephenomoarukhe.android.bakingtime.model.Recipe;
 import com.stephenomoarukhe.android.bakingtime.ui.DetailActivity;
 
@@ -42,16 +43,18 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
 
     public static final String TAG = RecipeFragment.class.getSimpleName();
     public static ArrayList<Recipe> mRecipes;
+    private FrameLayout rootView;
     private RecyclerView recyclerView;
+    private ProgressBar mLoadingIndicator;
     private RecipeAdapter adapter;
     private ArrayList<Integer> mImages;
-    private View rootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.recipe_fragment, container, false);
+        rootView =(FrameLayout) inflater.inflate(R.layout.recipe_fragment, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_list);
+        mLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
 
         mImages = new ArrayList<>();
         mImages.add(R.drawable.nutella_pie);
@@ -59,39 +62,61 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
         mImages.add(R.drawable.cheesecake);
         mImages.add(R.drawable.yellow_cake);
 
-        OkHttpClient client = new OkHttpClient();
+        if (isNetworkAvailable(getContext())) {
 
-        Request request = new Request.Builder()
-                .url(getResources().getString(R.string.bakingUrl))
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+            mLoadingIndicator.setVisibility(View.VISIBLE);
 
-            }
+            OkHttpClient client = new OkHttpClient();
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    String jsonData = response.body().string();
-                    if (response.isSuccessful()) {
-                        mRecipes = getBakingRecipe(jsonData);
-                        if (getActivity() == null) return;
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadData();
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    Log.e(TAG, "Exception caught: " + e.getMessage(), e);
-                } catch (JSONException e) {
-                    Log.e(TAG, "Exception caught: " + e.getMessage(), e);
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.bakingUrl))
+                    .build();
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mLoadingIndicator.setVisibility(View.INVISIBLE);
+                        }
+                    });
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mLoadingIndicator.setVisibility(View.INVISIBLE);
+                        }
+                    });
+
+                    try {
+                        String jsonData = response.body().string();
+                        if (response.isSuccessful()) {
+                            mRecipes = getBakingRecipe(jsonData);
+                            if (getActivity() == null) return;
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadData();
+                                }
+                            });
+                        }else {
+                            alertUserOfError();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Exception caught: " + e.getMessage(), e);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Exception caught: " + e.getMessage(), e);
+                    }
+                }
+            });
+        }else {
+            alertUserOfError();
+        }
 
         return rootView;
     }
@@ -129,9 +154,25 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
 
     @Override
     public void onClick(int clickedItemIndex) {
-        Toast.makeText(getActivity(), String.valueOf(clickedItemIndex), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("item", clickedItemIndex);
         startActivity(intent);
+    }
+
+
+    private static boolean isNetworkAvailable(Context context){
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()){
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
+
+    private void alertUserOfError(){
+        AlertDialogFragment dialogFragment = new AlertDialogFragment();
+        dialogFragment.show(getActivity().getFragmentManager(), "error_dialog");
     }
 }
