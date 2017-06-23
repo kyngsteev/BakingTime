@@ -17,10 +17,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/widget_recipe_text"
             tools:text="Nutella Pie"
-            android:textSize="28sp"
+            android:textSize="@dimen/widget_header_textsize"
             android:layout_gravity="center_horizontal"
             android:padding="@dimen/padding8dp"
-            android:textColor="#2D4D6B"/>
+            android:textColor="@color/widget_textview"/>
 
     </LinearLayout>
 

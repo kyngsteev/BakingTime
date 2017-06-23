@@ -8,4 +8,9 @@
     <color name="tab_text_color">#727272</color>
     <color name="rule_view_color">#929292</color>
     <color name="selected_tab_text_color">#424242</color>
+    <color name="exo_bg">#CC000000</color>
+    <color name="exo_textview">#FFBEBEBE</color>
+    <color name="widget_textview">#2D4D6B</color>
+    <color name="divider_color">#eeeeee</color>
+    <color name="provider_bg">#09C</color>
 </resources>
