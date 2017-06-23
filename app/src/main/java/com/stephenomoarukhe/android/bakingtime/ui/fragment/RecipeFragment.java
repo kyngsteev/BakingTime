@@ -1,5 +1,6 @@
 package com.stephenomoarukhe.android.bakingtime.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.stephenomoarukhe.android.bakingtime.R;
 import com.stephenomoarukhe.android.bakingtime.adapter.RecipeAdapter;
@@ -43,18 +42,16 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
 
     public static final String TAG = RecipeFragment.class.getSimpleName();
     public static ArrayList<Recipe> mRecipes;
-    private FrameLayout rootView;
     private RecyclerView recyclerView;
-    private ProgressBar mLoadingIndicator;
     private RecipeAdapter adapter;
     private ArrayList<Integer> mImages;
+    private ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView =(FrameLayout) inflater.inflate(R.layout.recipe_fragment, container, false);
+        recyclerView =(RecyclerView) inflater.inflate(R.layout.recipe_fragment, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recipe_list);
-        mLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
+        dialog = new ProgressDialog(getContext());
 
         mImages = new ArrayList<>();
         mImages.add(R.drawable.nutella_pie);
@@ -64,7 +61,8 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
 
         if (isNetworkAvailable(getContext())) {
 
-            mLoadingIndicator.setVisibility(View.VISIBLE);
+            dialog.setMessage(getString(R.string.dialog));
+            dialog.show();
 
             OkHttpClient client = new OkHttpClient();
 
@@ -78,7 +76,9 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mLoadingIndicator.setVisibility(View.INVISIBLE);
+                            if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
                         }
                     });
                 }
@@ -89,7 +89,9 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mLoadingIndicator.setVisibility(View.INVISIBLE);
+                            if (dialog.isShowing()) {
+                                dialog.dismiss();
+                            }
                         }
                     });
 
@@ -118,7 +120,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
             alertUserOfError();
         }
 
-        return rootView;
+        return recyclerView;
     }
 
     private void loadData() {
@@ -160,7 +162,7 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
     }
 
 
-    private static boolean isNetworkAvailable(Context context){
+    public static boolean isNetworkAvailable(Context context){
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 

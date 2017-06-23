@@ -8,4 +8,9 @@
     <string name="error_title">Oops! Sorry!</string>
     <string name="error_dialog_message">Network is not available! Please check network settings</string>
     <string name="error_positive_button_text">OK</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="GET">GET</string>
+    <string name="item_element_text">Nutella Pie</string>
+    <string name="dialog">Please wait...............</string>
 </resources>

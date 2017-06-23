@@ -19,13 +19,13 @@
     tools:context=".ui.StepDetailsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteX="@dimen/constraint_editor_x"
+    tools:layout_editor_absoluteY="@dimen/constraint_editor_y">
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/playerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/exo_layout_width"
+        android:layout_height="@dimen/exo_layout_height"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/horizontalHalf"
@@ -37,13 +37,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="256dp" />
+        tools:layout_editor_absoluteX="@dimen/constraint_editor_x"
+        tools:layout_editor_absoluteY="@dimen/constraint_guideline_editor_y" />
 
     <Button
         android:id="@+id/prev_button"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/layout_width"
+        android:layout_height="@dimen/button_layout_height"
         android:text="prev"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,8 +52,8 @@
 
     <Button
         android:id="@+id/next_button"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/layout_width"
+        android:layout_height="@dimen/button_layout_height"
         android:text="next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/prev_button"
@@ -61,10 +61,10 @@
 
     <TextView
         android:id="@+id/text_description"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/layout_width"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="@dimen/step_description_short"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"

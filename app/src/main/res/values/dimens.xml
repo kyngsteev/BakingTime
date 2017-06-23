@@ -23,4 +23,29 @@
     <dimen name="tabLayout_elevation">6dp</dimen>
     <dimen name="progressbar_height">42dp</dimen>
     <dimen name="progressbar_width">42dp</dimen>
+    <dimen name="widget_layout_margin">4dp</dimen>
+    <dimen name="widget_layout_padding">4dp</dimen>
+    <dimen name="widget_ingredient_textsize">19sp</dimen>
+    <dimen name="item_text">10sp</dimen>
+    <dimen name="item_value">16sp</dimen>
+    <dimen name="linear_layout_width">0dp</dimen>
+    <dimen name="layout_width">0dp</dimen>
+    <dimen name="button_layout_height">70dp</dimen>
+    <dimen name="exo_layout_width">0dp</dimen>
+    <dimen name="exo_layout_height">0dp</dimen>
+    <dimen name="constraint_editor_x">0dp</dimen>
+    <dimen name="constraint_editor_y">81dp</dimen>
+    <dimen name="constraint_guideline_editor_y">256dp</dimen>
+    <dimen name="linear_layout_margin">4dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="step_text">15sp</dimen>
+    <dimen name="step_text_margin">4dp</dimen>
+    <dimen name="step_description_short">20sp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="text_size_xlarge">22sp</dimen>
 </resources>

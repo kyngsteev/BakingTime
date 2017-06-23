@@ -2,6 +2,7 @@ package com.stephenomoarukhe.android.bakingtime.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class IngredientFragment extends Fragment {
 
         recyclerView = (RecyclerView) inflater.inflate(R.layout.ingredient_fragment, container, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setHasFixedSize(true);
         adapter = new IngredientAdapter(mRecipes.get(index).getIngredients());
         recyclerView.setAdapter(adapter);

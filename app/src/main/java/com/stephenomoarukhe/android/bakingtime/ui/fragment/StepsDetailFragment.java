@@ -169,19 +169,20 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
     private void releasePlayer() {
         exoPlayer.stop();
         exoPlayer.release();
-        exoPlayer = null;
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        exoPlayer.setPlayWhenReady(false);
-        mediaSession.setActive(false);
+        releasePlayer();
+//        exoPlayer.setPlayWhenReady(false);
+//        mediaSession.setActive(false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        exoPlayer.setPlayWhenReady(true);
         mediaSession.setActive(true);
     }
 
@@ -189,6 +190,7 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
+        exoPlayer = null;
         mediaSession.setActive(false);
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ public class StepFragment extends Fragment implements StepsAdapter.ListItemClick
 
         stepsRecyclerView = (RecyclerView) inflater.inflate(R.layout.step_fragment, container, false);
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        stepsRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         stepsRecyclerView.setHasFixedSize(true);
         stepsAdapter = new StepsAdapter(this, mSteps);
         stepsRecyclerView.setAdapter(stepsAdapter);

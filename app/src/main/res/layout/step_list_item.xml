@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="4dp"
+    android:layout_margin="@dimen/linear_layout_margin"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -17,17 +17,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/step_text"
             tools:text="Step :"
-            android:textSize="15sp"
+            android:textSize="@dimen/step_text"
             android:paddingLeft="@dimen/padding8dp"
             android:paddingRight="@dimen/padding8dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"/>
+            android:paddingTop="@dimen/step_text_margin"
+            android:paddingBottom="@dimen/step_text_margin"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/step_id"
             android:text="1"
-            android:textSize="15sp"
+            android:textSize="@dimen/step_text"
             />
 
     </LinearLayout>
@@ -44,18 +44,10 @@
             android:id="@+id/step_description_short"
             android:paddingLeft="@dimen/padding8dp"
             android:paddingRight="@dimen/padding8dp"
-            android:textSize="20sp"
+            android:textSize="@dimen/step_description_short"
             android:textColor="@color/recipe_title"
             android:text="Remove from oven and cool at room temperature."/>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="380dp"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="4dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/rule_view_color"/>
 
 </LinearLayout>
