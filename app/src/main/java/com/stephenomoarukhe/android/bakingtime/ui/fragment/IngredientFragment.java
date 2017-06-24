@@ -29,6 +29,8 @@ public class IngredientFragment extends Fragment {
 
         index = getActivity().getIntent().getExtras().getInt(getString(R.string.extra));
 
+        getActivity().setTitle(mRecipes.get(index).getName());
+
         recyclerView = (RecyclerView) inflater.inflate(R.layout.ingredient_fragment, container, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));

@@ -14,12 +14,15 @@ import com.stephenomoarukhe.android.bakingtime.adapter.StepsAdapter;
 import com.stephenomoarukhe.android.bakingtime.ui.fragment.StepsDetailFragment;
 
 import static com.stephenomoarukhe.android.bakingtime.ui.MainActivity.isTablet;
+import static com.stephenomoarukhe.android.bakingtime.ui.fragment.RecipeFragment.mRecipes;
+import static com.stephenomoarukhe.android.bakingtime.ui.fragment.StepFragment.mSteps;
+import static com.stephenomoarukhe.android.bakingtime.ui.fragment.StepsDetailFragment.index;
 
 /**
  * Created by Omoarukhe on 06/14/2017.
  */
 
-public class DetailActivity extends AppCompatActivity implements RecipeAdapter.ListItemClickListener{
+public class DetailActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +37,4 @@ public class DetailActivity extends AppCompatActivity implements RecipeAdapter.L
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    @Override
-    public void onClick(int clickedItemIndex) {
-        if(isTablet){
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            StepsDetailFragment stepsDetailsFragment = new StepsDetailFragment();
-            stepsDetailsFragment.index = clickedItemIndex;
-            fragmentManager.beginTransaction()
-                    .add(R.id.stepsdetailsframe, stepsDetailsFragment)
-                    .commit();
-        }
-    }
 }

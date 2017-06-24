@@ -81,6 +81,8 @@ public class RecipeFragment extends Fragment implements RecipeAdapter.ListItemCl
                         }
                         }
                     });
+
+                    alertUserOfError();
                 }
 
                 @Override

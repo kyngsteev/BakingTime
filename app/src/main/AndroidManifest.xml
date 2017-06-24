@@ -21,7 +21,6 @@
         </activity>
         <activity
             android:name=".ui.DetailActivity"
-            android:label="@string/app_child_name"
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

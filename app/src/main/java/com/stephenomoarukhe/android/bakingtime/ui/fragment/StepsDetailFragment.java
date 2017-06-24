@@ -3,6 +3,7 @@ package com.stephenomoarukhe.android.bakingtime.ui.fragment;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -32,6 +33,9 @@ import com.google.android.exoplayer2.util.Util;
 import com.stephenomoarukhe.android.bakingtime.R;
 import com.stephenomoarukhe.android.bakingtime.ui.DetailActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.stephenomoarukhe.android.bakingtime.ui.MainActivity.isTablet;
 import static com.stephenomoarukhe.android.bakingtime.ui.fragment.StepFragment.mSteps;
 
@@ -43,12 +47,15 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
 
     private static final String TAG = DetailActivity.class.getSimpleName();
     private View rootView;
-    private TextView longDescription;
-    private Button prev;
-    private Button next;
-    public static int index = 0;
+
+    @BindView(R.id.text_description) TextView longDescription;
+    @BindView(R.id.prev_button) Button prev;
+    @BindView(R.id.next_button) Button next;
+    @BindView(R.id.playerView) SimpleExoPlayerView playerView;
+    @BindView(R.id.horizontalHalf) Guideline guideline;
+
     private SimpleExoPlayer exoPlayer;
-    private SimpleExoPlayerView playerView;
+    public static int index = 0;
     private static MediaSessionCompat mediaSession;
     private PlaybackStateCompat.Builder stateBuilder;
     private static long position = 0;
@@ -61,12 +68,8 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.step_detail_fragment, container, false);
+        ButterKnife.bind(this, rootView);
 
-        longDescription = (TextView) rootView.findViewById(R.id.text_description);
-        prev = (Button) rootView.findViewById(R.id.prev_button);
-        next = (Button) rootView.findViewById(R.id.next_button);
-
-        playerView = (SimpleExoPlayerView) rootView.findViewById(R.id.playerView);
 
         initializeMediaSession();
         //for trying exoPlayer
@@ -86,6 +89,7 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
                 if (index > 0) {
                     index--;
                     longDescription.setText(mSteps.get(index).getDescription());
+                    getActivity().setTitle(mSteps.get(index).getShortDescription());
                     restExoPlayer(0, false);
                     exoPlayer = null;
                     initializePlayer(Uri.parse(mSteps.get(index).getVideoURL()));
@@ -98,6 +102,7 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
                 if (index < mSteps.size() - 1) {
                     index++;
                     longDescription.setText(mSteps.get(index).getDescription());
+                    getActivity().setTitle(mSteps.get(index).getShortDescription());
                     restExoPlayer(0, false);
                     exoPlayer = null;
                     initializePlayer(Uri.parse(mSteps.get(index).getVideoURL()));
@@ -108,10 +113,11 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !isTablet) {
             hideSystemUI();
             playerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-            //restExoPlayer(position, true);
+            restExoPlayer(position, true);
             longDescription.setVisibility(View.GONE);
             prev.setVisibility(View.GONE);
             next.setVisibility(View.GONE);
+            guideline.setVisibility(View.GONE);
         }
 
         return rootView;
@@ -121,7 +127,7 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
         getActivity().getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
@@ -175,14 +181,14 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
     public void onPause() {
         super.onPause();
         releasePlayer();
-//        exoPlayer.setPlayWhenReady(false);
-//        mediaSession.setActive(false);
+        exoPlayer.setPlayWhenReady(false);
+        mediaSession.setActive(false);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        exoPlayer.setPlayWhenReady(true);
+        restExoPlayer(0, true);
         mediaSession.setActive(true);
     }
 
@@ -196,7 +202,16 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        if (playbackState == PlaybackStateCompat.STATE_PLAYING) {
+//        if (playbackState == PlaybackStateCompat.STATE_PLAYING) {
+//            position = exoPlayer.getCurrentPosition();
+//        }
+        if (playbackState == ExoPlayer.STATE_READY && playWhenReady){
+            stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
+                    exoPlayer.getCurrentPosition(), 1f);
+            position = exoPlayer.getCurrentPosition();
+        }else if (playbackState == ExoPlayer.STATE_READY){
+            stateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
+                    exoPlayer.getCurrentPosition(), 1f);
             position = exoPlayer.getCurrentPosition();
         }
         mediaSession.setPlaybackState(stateBuilder.build());
@@ -210,7 +225,7 @@ public class StepsDetailFragment extends Fragment implements ExoPlayer.EventList
 
         @Override
         public void onPause() {
-            exoPlayer.setPlayWhenReady(false);
+            exoPlayer.setPlayWhenReady(true);
         }
 
         @Override
