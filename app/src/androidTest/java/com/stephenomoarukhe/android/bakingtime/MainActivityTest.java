@@ -40,9 +40,5 @@ public class MainActivityTest {
         onView(allOf(withId(R.id.recipe_list), withParent(allOf(withId(R.id.bakersFrame), withParent(withId(android.R.id.content)))),
                 isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
-        // Match the text in an item below the fold and check that it's displayed.
-//        String itemElementText = mMainActivityTestRule.getActivity().getResources().getString(
-//                R.string.item_element_text);
-//        onView(withText(itemElementText)).check(matches(isDisplayed()));
     }
 }
